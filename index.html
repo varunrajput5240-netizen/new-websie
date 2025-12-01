@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FixFleet – On‑Demand Home Services</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="page">
+      <header class="top-nav">
+        <div class="brand">
+          <div class="brand-mark">F</div>
+          <div class="brand-copy">
+            <span class="brand-name">FixFleet</span>
+            <span class="brand-tagline">Trusted help, right next door</span>
+          </div>
+        </div>
+        <nav class="nav-links">
+          <button class="nav-link" data-scroll="#how-it-works">How it works</button>
+          <button class="nav-link" data-scroll="#services">Services</button>
+          <button class="nav-link" data-scroll="#for-workers">For workers</button>
+        </nav>
+        <div class="nav-cta">
+          <button class="btn ghost" id="switch-to-worker">I’m a worker</button>
+          <button class="btn primary" id="switch-to-user">I need help</button>
+        </div>
+      </header>
+
+      <main>
+        <!-- HERO -->
+        <section class="hero">
+          <div class="hero-text">
+            <h1>
+              Fix home issues in minutes,
+              <span class="accent">not days</span>.
+            </h1>
+            <p class="hero-subtitle">
+              FixFleet connects you with verified electricians, plumbers, carpenters and
+              more in real time. See who’s nearby, check their ratings, and book instantly.
+            </p>
+            <div class="role-toggle" id="role-toggle">
+              <button class="role-tab active" data-role="user">For Homeowners</button>
+              <button class="role-tab" data-role="worker">For Service Workers</button>
+            </div>
+            <div class="hero-panels">
+              <!-- USER PANEL -->
+              <div class="hero-panel hero-panel--user" id="panel-user">
+                <form class="quick-search" id="user-search-form">
+                  <label class="field">
+                    <span class="field-label">What do you need?</span>
+                    <select id="service-type" required>
+                      <option value="">Select a service</option>
+                      <option value="electrician">Electrician</option>
+                      <option value="plumber">Plumber</option>
+                      <option value="carpenter">Carpenter</option>
+                      <option value="cleaning">Home Cleaning</option>
+                      <option value="appliance">Appliance Repair</option>
+                      <option value="painting">Painting</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </label>
+                  <label class="field">
+                    <span class="field-label">How urgent is it?</span>
+                    <div class="pill-options">
+                      <button type="button" data-urgency="now" class="pill active">
+                        Right now
+                      </button>
+                      <button type="button" data-urgency="today" class="pill">
+                        Today
+                      </button>
+                      <button type="button" data-urgency="this-week" class="pill">
+                        This week
+                      </button>
+                    </div>
+                    <input type="hidden" id="urgency" value="now" />
+                  </label>
+                  <div class="location-row">
+                    <button type="button" class="btn outline" id="detect-location">
+                      Use my location
+                    </button>
+                    <span class="location-status" id="location-status">
+                      Waiting for location…
+                    </span>
+                  </div>
+                  <button type="submit" class="btn primary full-width">
+                    Find nearby pros
+                  </button>
+                </form>
+              </div>
+
+              <!-- WORKER PANEL -->
+              <div class="hero-panel hero-panel--worker hidden" id="panel-worker">
+                <form class="quick-search" id="worker-register-form">
+                  <p class="panel-heading">
+                    Join the FixFleet network and get real jobs from people right around you.
+                  </p>
+                  <label class="field">
+                    <span class="field-label">Your name</span>
+                    <input type="text" id="worker-name" placeholder="E.g. Rohan Kumar" required />
+                  </label>
+                  <label class="field">
+                    <span class="field-label">Your main skill</span>
+                    <select id="worker-skill" required>
+                      <option value="">Select your trade</option>
+                      <option value="electrician">Electrician</option>
+                      <option value="plumber">Plumber</option>
+                      <option value="carpenter">Carpenter</option>
+                      <option value="cleaning">Home Cleaning</option>
+                      <option value="appliance">Appliance Repair</option>
+                      <option value="painting">Painting</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </label>
+                  <label class="field">
+                    <span class="field-label">Short bio</span>
+                    <textarea
+                      id="worker-bio"
+                      rows="2"
+                      placeholder="Tell people what you’re best at and any certifications."
+                    ></textarea>
+                  </label>
+                  <label class="field">
+                    <span class="field-label">Contact number</span>
+                    <input type="tel" id="worker-phone" placeholder="+91 98765 43210" required />
+                  </label>
+                  <div class="location-row">
+                    <button type="button" class="btn outline" id="worker-detect-location">
+                      Use my location
+                    </button>
+                    <span class="location-status" id="worker-location-status">
+                      Share your location to appear in searches.
+                    </span>
+                  </div>
+                  <button type="submit" class="btn primary full-width">
+                    Join FixFleet
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-side">
+            <div class="live-map-card">
+              <div class="map-header">
+                <span class="map-title">Live Nearby Pros</span>
+                <span class="map-badge" id="map-count">0 online</span>
+              </div>
+              <div class="map-legend">
+                <span class="legend-item">
+                  <span class="dot dot-electrician"></span>Electricians
+                </span>
+                <span class="legend-item">
+                  <span class="dot dot-plumber"></span>Plumbers
+                </span>
+                <span class="legend-item">
+                  <span class="dot dot-carpenter"></span>Carpenters
+                </span>
+              </div>
+              <div class="map" id="fake-map">
+                <div class="map-center-pulse"></div>
+                <!-- Worker pins will be injected here -->
+              </div>
+              <div class="map-footer">
+                <span class="map-note">
+                  Demo mode: positions are simulated but reflect real distance.
+                </span>
+              </div>
+            </div>
+
+            <div class="stat-grid">
+              <div class="stat-card">
+                <span class="stat-number">4.8★</span>
+                <span class="stat-label">Average worker rating</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-number">6 min</span>
+                <span class="stat-label">Median response time</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-number">24/7</span>
+                <span class="stat-label">Emergency coverage</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- RESULTS & BOOKING -->
+        <section class="results" id="results-section">
+          <div class="results-header">
+            <div>
+              <h2>Nearby professionals</h2>
+              <p class="results-subtitle" id="results-subtitle">
+                Search for a service to see available workers around you.
+              </p>
+            </div>
+            <div class="results-filters">
+              <label class="field inline">
+                <span class="field-label">Sort by</span>
+                <select id="sort-by">
+                  <option value="distance">Closest first</option>
+                  <option value="rating">Highest rated</option>
+                  <option value="experience">Most experienced</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div class="results-body">
+            <div class="workers-list" id="workers-list">
+              <!-- Worker cards injected here -->
+            </div>
+
+            <aside class="booking-panel" id="booking-panel">
+              <div class="booking-empty">
+                <h3>Instant booking</h3>
+                <p>
+                  Select a professional on the left to see their profile, reviews, and book a
+                  time slot.
+                </p>
+              </div>
+              <div class="booking-details hidden" id="booking-details">
+                <div class="booking-worker">
+                  <div class="avatar" id="booking-avatar"></div>
+                  <div>
+                    <h3 id="booking-name"></h3>
+                    <p class="booking-skill" id="booking-skill"></p>
+                    <p class="booking-rating" id="booking-rating"></p>
+                  </div>
+                </div>
+                <form id="booking-form">
+                  <label class="field">
+                    <span class="field-label">Describe the issue</span>
+                    <textarea
+                      id="booking-issue"
+                      rows="3"
+                      placeholder="E.g. Power keeps tripping in the living room…"
+                      required
+                    ></textarea>
+                  </label>
+                  <label class="field">
+                    <span class="field-label">Preferred time</span>
+                    <input type="datetime-local" id="booking-time" required />
+                  </label>
+                  <label class="field">
+                    <span class="field-label">Your contact number</span>
+                    <input type="tel" id="booking-phone" placeholder="+91 98765 43210" required />
+                  </label>
+                  <button type="submit" class="btn primary full-width">
+                    Request booking
+                  </button>
+                  <p class="booking-note" id="booking-note">
+                    The worker will confirm your booking by call or SMS.
+                  </p>
+                </form>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <!-- HOW IT WORKS -->
+        <section class="strip" id="how-it-works">
+          <div class="strip-inner">
+            <h2>How FixFleet keeps both sides in sync</h2>
+            <div class="steps">
+              <div class="step">
+                <span class="step-number">1</span>
+                <h3>Smart matching</h3>
+                <p>
+                  Users pick the service they need, we instantly match them with verified workers
+                  in walking or short driving distance.
+                </p>
+              </div>
+              <div class="step">
+                <span class="step-number">2</span>
+                <h3>Transparent profiles</h3>
+                <p>
+                  Every worker has a living profile with skills, ratings, price hints and a
+                  reliability score based on past jobs.
+                </p>
+              </div>
+              <div class="step">
+                <span class="step-number">3</span>
+                <h3>Booking that feels like chat</h3>
+                <p>
+                  Pick a time, share your issue, and confirm in one flow. No endless calls, no
+                  confusion.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SERVICES GRID -->
+        <section class="services" id="services">
+          <h2>Services that FixFleet covers today</h2>
+          <div class="services-grid">
+            <div class="service-card">
+              <span class="service-icon">⚡</span>
+              <h3>Electricians</h3>
+              <p>Short circuits, new fittings, smart switches, and power failures.</p>
+            </div>
+            <div class="service-card">
+              <span class="service-icon">💧</span>
+              <h3>Plumbers</h3>
+              <p>Leaks, blockages, new taps, mixers, and bathroom fittings.</p>
+            </div>
+            <div class="service-card">
+              <span class="service-icon">🪚</span>
+              <h3>Carpenters</h3>
+              <p>Door repairs, shelves, modular fixes, and custom furniture tweaks.</p>
+            </div>
+            <div class="service-card">
+              <span class="service-icon">🧹</span>
+              <h3>Deep cleaning</h3>
+              <p>Move-in, move-out, and festival-ready home cleaning.</p>
+            </div>
+            <div class="service-card">
+              <span class="service-icon">🧊</span>
+              <h3>Appliance repair</h3>
+              <p>ACs, fridges, washing machines, and other daily essentials.</p>
+            </div>
+            <div class="service-card">
+              <span class="service-icon">🎨</span>
+              <h3>Painting</h3>
+              <p>Quick touch-ups to full home repaints, all hassle-free.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- FOR WORKERS -->
+        <section class="for-workers" id="for-workers">
+          <div class="for-workers-inner">
+            <div class="for-workers-copy">
+              <h2>Built for independent workers, not just big agencies</h2>
+              <p>
+                FixFleet gives local professionals digital superpowers: a live map presence, a
+                simple booking inbox, and a reputation that moves with them wherever they work.
+              </p>
+              <ul class="benefits">
+                <li><strong>No bidding wars</strong> – you get matched, not auctioned.</li>
+                <li>
+                  <strong>Location-first</strong> – get jobs that are actually close enough to do.
+                </li>
+                <li>
+                  <strong>Reputation that grows</strong> – every successful job adds to your
+                  trust score.
+                </li>
+              </ul>
+              <button class="btn ghost" id="cta-become-worker">
+                Become a FixFleet pro
+              </button>
+            </div>
+            <div class="for-workers-card">
+              <h3>Your live status cockpit</h3>
+              <div class="status-row">
+                <span>Status</span>
+                <span class="status-pill">Online &amp; available</span>
+              </div>
+              <div class="status-row">
+                <span>Today’s jobs</span>
+                <span>3 confirmed · 1 pending</span>
+              </div>
+              <div class="status-row">
+                <span>Reliability score</span>
+                <span>96%</span>
+              </div>
+              <div class="status-graph">
+                <div class="bar bar-1"></div>
+                <div class="bar bar-2"></div>
+                <div class="bar bar-3"></div>
+                <div class="bar bar-4"></div>
+              </div>
+              <p class="status-note">
+                In a full implementation, this dashboard updates in real time as you complete
+                bookings.
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="footer-inner">
+          <div class="footer-brand">
+            <span class="brand-mark brand-mark--small">F</span>
+            <span class="brand-name">FixFleet</span>
+          </div>
+          <p class="footer-copy">
+            Prototype experience to reimagine how cities handle everyday home repairs – fast,
+            local, and human.
+          </p>
+          <div class="footer-meta">
+            <span>Demo only – no real bookings are created.</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <div class="toast hidden" id="toast"></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
+
+
